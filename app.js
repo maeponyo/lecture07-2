@@ -10,7 +10,7 @@ var app = {
 
 var MEDIA_CONSTRAINT = {
   video: true,
-  audio: true
+  audio: false
 };
 
 function streamAquired(stream){
@@ -35,3 +35,4 @@ function unload(){
 }
 
 window.addEventListener("unload", unload);
+
