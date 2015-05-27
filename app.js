@@ -5,6 +5,8 @@ navigator.getUserMedia =
 
 var app = {
   preview: document.querySelector("video"),
+  shoot: document.querySelector("#shoot"),
+  canvas: document.querySelector("canvas"),
   stream: null
 };
 
@@ -23,7 +25,15 @@ function streamAquisitionFailed(error){
   console.log(error);
 }
 
+function capture(){
+  if(app.stream != null){
+    app.ctx.drawImage(app.preview, 0, 0, app.canvas.width, app.canvas.height);
+  }
+}
+
 function initialize(){
+  app.shoot.addEventListener("click", capture);
+  app.ctx = app.canvas.getContext("2d");
   navigator.getUserMedia(MEDIA_CONSTRAINT, streamAquired, streamAquisitionFailed);
 }
 
@@ -33,6 +43,6 @@ function unload(){
     app.stream = null;
   }
 }
-
+window.addEventListener("load", initialize);
 window.addEventListener("unload", unload);
 
