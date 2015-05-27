@@ -25,10 +25,40 @@ function streamAquisitionFailed(error){
   console.log(error);
 }
 
+function getPixel(x, y){
+  var result = app.ctx.getImageData(x, y, 1, 1);
+  return result.data;
+}
+
+function formatColor(color){
+  return "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
+};
+
+function mosaic(){
+  var i = 0; 
+  var width = 40;
+  var height = 40;
+  while(i < app.canvas.width){
+    var j = 0;
+    while(j < app.canvas.height){
+      var color = getPixel(i, j);
+      app.ctx.fillStyle = formatColor(color);
+      app.ctx.fillRect(i, j, width, height);
+      j = j + height;
+    }
+    i = i + width;
+  }
+}
+
+function processImage(){
+  mosaic();
+}
+
 function capture(){
   if(app.stream != null){
     app.ctx.drawImage(app.preview, 0, 0, app.canvas.width, app.canvas.height);
   }
+  processImage();
 }
 
 function initialize(){
